@@ -5,26 +5,24 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.List;
-
 @Entity
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class Candidate {
+public class Exam {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String name;
-    private String email;
+    private String title;
 
-    @OneToMany(mappedBy = "candidate")
-    private List<Exam> exams;
+    @ManyToOne
+    private Candidate candidate;
 
-    public Candidate(String name, String email) {
-        this.name = name;
-        this.email = email;
+    private int score;
+
+    public Exam(String title, int score) {
+        this.title = title;
+        this.score = score;
     }
 }
-
 

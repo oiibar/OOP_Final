@@ -1,32 +1,43 @@
 package com.oop.OOP.controllers;
 
+import com.oop.OOP.dto.AdminDto;
 import com.oop.OOP.entities.Admin;
-import com.oop.OOP.repo.AdminRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.oop.OOP.services.AdminService;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
 @Data
-@NoArgsConstructor
 @RestController
 @RequestMapping("/api/admins")
 public class AdminController {
+    private final AdminService adminService;
 
-    @Autowired
-    private AdminRepository adminRepository;
-
-    @GetMapping
-    public List<Admin> getAllAdmins() {
-        return adminRepository.findAll();
+    public AdminController(AdminService adminService) {
+        this.adminService = adminService;
     }
 
     @PostMapping
-    public Admin createAdmin(@RequestBody Admin admin) {
-        return adminRepository.save(admin);
+    public Admin createAdmin(@RequestBody AdminDto adminDto) {
+        return adminService.saveAdmin(adminDto);
+    }
+
+    @GetMapping("/{id}")
+    public Admin getAdminById(@PathVariable Long id) {
+        return adminService.getAdminById(id);
+    }
+
+    @PutMapping("/{id}")
+    public Admin updateAdmin(@PathVariable Long id, @RequestBody AdminDto adminDto) {
+        return adminService.updateAdmin(id, adminDto);
+    }
+
+    @DeleteMapping("/{id}")
+    public void deleteAdmin(@PathVariable Long id) {
+        adminService.deleteAdmin(id);
     }
 }
+
+
 

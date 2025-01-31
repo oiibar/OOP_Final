@@ -1,28 +1,34 @@
 package com.oop.OOP.entities;
 import jakarta.persistence.*;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+@Entity
 @Data
 @NoArgsConstructor
-@Entity
+@AllArgsConstructor
 public class Question {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private Long id;
 
-    private String question;
+    private String text;
+    private String optionA;
+    private String optionB;
+    private String optionC;
+    private String optionD;
+    private String correctAnswer;
 
-    private String answer;
-
-    private String[] options;
-
-    public Question(int id, String question, String answer, String[] options) {
-        this.id = id;
-        this.question = question;
-        this.answer = answer;
-        this.options = options;
+    public Question(String text, String optionA, String optionB, String optionC, String optionD, String correctAnswer) {
+        this.text = text;
+        this.optionA = optionA;
+        this.optionB = optionB;
+        this.optionC = optionC;
+        this.optionD = optionD;
+        this.correctAnswer = correctAnswer;
     }
 }
+
 
