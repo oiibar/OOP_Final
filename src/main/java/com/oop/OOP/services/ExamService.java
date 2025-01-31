@@ -16,10 +16,6 @@ public class ExamService {
         this.examRepository = examRepository;
     }
 
-    public List<Exam> getUpcomingExams() {
-        return examRepository.findByExamDateAfter(LocalDateTime.now());
-    }
-
     public Exam createExam(ExamDto examDto) {
         Exam exam = new Exam(examDto.getTitle(), examDto.getScore());
         return examRepository.save(exam);
