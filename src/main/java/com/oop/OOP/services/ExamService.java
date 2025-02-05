@@ -3,6 +3,7 @@ package com.oop.OOP.services;
 import com.oop.OOP.dto.ExamDto;
 import com.oop.OOP.entities.Exam;
 import com.oop.OOP.repo.ExamRepository;
+import com.oop.OOP.repo.QuestionRepository;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -11,14 +12,24 @@ import java.util.List;
 @Service
 public class ExamService {
     private final ExamRepository examRepository;
+    private final QuestionRepository questionRepository;
 
-    public ExamService(ExamRepository examRepository) {
+    public ExamService(ExamRepository examRepository, QuestionRepository questionRepository) {
         this.examRepository = examRepository;
+        this.questionRepository = questionRepository;
     }
 
-    public Exam createExam(ExamDto examDto) {
-        Exam exam = new Exam(examDto.getTitle(), examDto.getScore());
-        return examRepository.save(exam);
+    public Exam saveExam(Exam exam) {
+        Exam savedExam = examRepository.save(exam);
+
+        if (exam.getQuestions() != null) {
+            exam.getQuestions().forEach(question -> {
+                question.setExam(savedExam);
+            });
+            questionRepository.saveAll(exam.getQuestions());
+        }
+
+        return savedExam;
     }
 
     public Exam getExamById(Long id) {
@@ -29,7 +40,6 @@ public class ExamService {
     public Exam updateExam(Long id, ExamDto examDto) {
         Exam exam = getExamById(id);
         exam.setTitle(examDto.getTitle());
-        exam.setScore(examDto.getScore());
         return examRepository.save(exam);
     }
 

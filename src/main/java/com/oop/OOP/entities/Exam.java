@@ -1,9 +1,12 @@
 package com.oop.OOP.entities;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import java.util.List;
 
 @Entity
 @Data
@@ -15,14 +18,12 @@ public class Exam {
     private Long id;
     private String title;
 
-    @ManyToOne
-    private Candidate candidate;
+    @OneToMany(mappedBy = "exam", cascade = CascadeType.ALL)
+    @JsonManagedReference("exam-questions")
+    private List<Question> questions;
 
-    private int score;
-
-    public Exam(String title, int score) {
+    public Exam(String title) {
         this.title = title;
-        this.score = score;
     }
 }
 

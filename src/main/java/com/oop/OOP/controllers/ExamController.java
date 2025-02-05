@@ -1,7 +1,6 @@
 package com.oop.OOP.controllers;
 
 import com.oop.OOP.dto.ExamDto;
-import com.oop.OOP.entities.Candidate;
 import com.oop.OOP.entities.Exam;
 import com.oop.OOP.services.ExamService;
 import org.springframework.web.bind.annotation.*;
@@ -18,8 +17,8 @@ public class ExamController {
     }
 
     @PostMapping
-    public Exam createExam(@RequestBody ExamDto examDto) {
-        return examService.createExam(examDto);
+    public Exam createExam(@RequestBody Exam examDto) {
+        return examService.saveExam(examDto);
     }
 
     @GetMapping("/{id}")

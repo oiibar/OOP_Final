@@ -1,6 +1,7 @@
 package com.oop.OOP.entities;
-import jakarta.persistence.*;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -13,6 +14,11 @@ public class Question {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "exam_id")
+    @JsonBackReference("exam-questions")
+    private Exam exam;
 
     private String text;
     private String optionA;
@@ -29,6 +35,20 @@ public class Question {
         this.optionD = optionD;
         this.correctAnswer = correctAnswer;
     }
+
+    public boolean isCorrectAnswer(String userAnswer) {
+        switch (userAnswer.toUpperCase()) {
+            case "A":
+                return this.correctAnswer.equalsIgnoreCase(this.optionA);
+            case "B":
+                return this.correctAnswer.equalsIgnoreCase(this.optionB);
+            case "C":
+                return this.correctAnswer.equalsIgnoreCase(this.optionC);
+            case "D":
+                return this.correctAnswer.equalsIgnoreCase(this.optionD);
+            default:
+                return false;
+        }
+    }
+
 }
-
-

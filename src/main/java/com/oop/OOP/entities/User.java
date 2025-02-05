@@ -1,29 +1,32 @@
 package com.oop.OOP.entities;
 
+import com.oop.OOP.enums.Role;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.List;
-
 @Entity
+@Table(name = "users")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class Candidate {
+public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
     private String email;
+    private String password;
 
-    @OneToMany(mappedBy = "candidate")
-    private List<Exam> exams;
+    @Enumerated(EnumType.STRING)
+    private Role role;
 
-    public Candidate(String name, String email) {
+    public User(String name, String email, String s, String password, Role role) {
         this.name = name;
         this.email = email;
+        this.password = password;
+        this.role = role;
     }
 }
 
